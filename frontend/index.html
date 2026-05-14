@@ -4,301 +4,301 @@
 <head>
     <meta charset="UTF-8">
     <title>Mon site</title>
-
-    <!-- 👇 ICI tu ajoutes l’icône -->
+    <h1 style="color:red;font-size:30px;">
+        🔥 UPDATE TEST OK
+    </h1>
+    <!-- FAVICON -->
     <link rel="icon" type="image/png" href="icon.png">
+
+    <!-- PWA & Mobile -->
+
+    <meta name="theme-color" content="#0f172a">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
 </head>
+:root {
+--bg1: #0f172a;
+--bg2: #020617;
+--accent: linear-gradient(135deg, #22c55e, #3b82f6);
+--card: rgba(15, 23, 42, 0.6);
+--border: rgba(255, 255, 255, 0.1);
+--text: #f8fafc;
+--sub: #94a3b8;
+--input-bg: rgba(255, 255, 255, 0.03);
+--glow: rgba(59, 130, 246, 0.5);
+}
 
-<!-- PWA & Mobile -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#0f172a">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+* {
+margin: 0;
+padding: 0;
+box-sizing: border-box;
+}
 
-<!-- FONTS -->
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
-    rel="stylesheet">
+body {
+font-family: 'Plus Jakarta Sans', sans-serif;
+background: radial-gradient(circle at top right, #1e293b, #020617);
+background-attachment: fixed;
+color: var(--text);
+min-height: 100vh;
+display: flex;
+justify-content: center;
+align-items: center;
+padding: 20px;
+transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
 
-<style>
-    :root {
-        --bg1: #0f172a;
-        --bg2: #020617;
-        --accent: linear-gradient(135deg, #22c55e, #3b82f6);
-        --card: rgba(15, 23, 42, 0.6);
-        --border: rgba(255, 255, 255, 0.1);
-        --text: #f8fafc;
-        --sub: #94a3b8;
-        --input-bg: rgba(255, 255, 255, 0.03);
-        --glow: rgba(59, 130, 246, 0.5);
-    }
+/* Thèmes Dynamiques */
+body.blue {
+--bg1: #172554;
+--bg2: #1e3a8a;
+background: radial-gradient(circle at top right, #1e40af, #020617);
+}
 
-    * {
-        margin: 0;
-        padding: 0;
-        box-sizing: border-box;
-    }
+body.green {
+--bg1: #064e3b;
+--bg2: #064e3b;
+background: radial-gradient(circle at top right, #065f46, #020617);
+}
 
-    body {
-        font-family: 'Plus Jakarta Sans', sans-serif;
-        background: radial-gradient(circle at top right, #1e293b, #020617);
-        background-attachment: fixed;
-        color: var(--text);
-        min-height: 100vh;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 20px;
-        transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
-    }
+.app {
+width: 100%;
+max-width: 480px;
+background: var(--card);
+backdrop-filter: blur(25px);
+-webkit-backdrop-filter: blur(25px);
+border: 1px solid var(--border);
+border-radius: 32px;
+padding: 30px;
+box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+animation: fadeIn 0.8s ease-out;
+}
 
-    /* Thèmes Dynamiques */
-    body.blue {
-        --bg1: #172554;
-        --bg2: #1e3a8a;
-        background: radial-gradient(circle at top right, #1e40af, #020617);
-    }
+@keyframes fadeIn {
+from {
+opacity: 0;
+transform: translateY(20px);
+}
 
-    body.green {
-        --bg1: #064e3b;
-        --bg2: #064e3b;
-        background: radial-gradient(circle at top right, #065f46, #020617);
-    }
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
 
-    .app {
-        width: 100%;
-        max-width: 480px;
-        background: var(--card);
-        backdrop-filter: blur(25px);
-        -webkit-backdrop-filter: blur(25px);
-        border: 1px solid var(--border);
-        border-radius: 32px;
-        padding: 30px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
-        animation: fadeIn 0.8s ease-out;
-    }
+/* TOPBAR */
+.topbar {
+display: flex;
+justify-content: space-between;
+align-items: center;
+margin-bottom: 30px;
+}
 
-    @keyframes fadeIn {
-        from {
-            opacity: 0;
-            transform: translateY(20px);
-        }
+.theme-selector {
+display: flex;
+gap: 10px;
+background: rgba(255, 255, 255, 0.05);
+padding: 5px;
+border-radius: 50px;
+}
 
-        to {
-            opacity: 1;
-            transform: translateY(0);
-        }
-    }
+.theme-btn {
+width: 20px;
+height: 20px;
+border-radius: 50%;
+border: none;
+cursor: pointer;
+transition: 0.3s;
+}
 
-    /* TOPBAR */
-    .topbar {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 30px;
-    }
+.theme-btn.default {
+background: #0f172a;
+border: 1px solid white;
+}
 
-    .theme-selector {
-        display: flex;
-        gap: 10px;
-        background: rgba(255, 255, 255, 0.05);
-        padding: 5px;
-        border-radius: 50px;
-    }
+.theme-btn.blue {
+background: #3b82f6;
+}
 
-    .theme-btn {
-        width: 20px;
-        height: 20px;
-        border-radius: 50%;
-        border: none;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+.theme-btn.green {
+background: #22c55e;
+}
 
-    .theme-btn.default {
-        background: #0f172a;
-        border: 1px solid white;
-    }
+.theme-btn:hover {
+transform: scale(1.2);
+}
 
-    .theme-btn.blue {
-        background: #3b82f6;
-    }
+.langs button {
+background: transparent;
+border: 1px solid var(--border);
+color: var(--text);
+padding: 6px 12px;
+border-radius: 12px;
+font-size: 11px;
+font-weight: 600;
+cursor: pointer;
+transition: 0.3s;
+}
 
-    .theme-btn.green {
-        background: #22c55e;
-    }
+.langs button:hover {
+background: rgba(255, 255, 255, 0.1);
+}
 
-    .theme-btn:hover {
-        transform: scale(1.2);
-    }
+/* HEADER */
+h1 {
+text-align: center;
+font-size: 36px;
+font-weight: 800;
+letter-spacing: -1px;
+margin-bottom: 8px;
+background: linear-gradient(to right, #4ade80, #3b82f6);
+-webkit-background-clip: text;
+-webkit-text-fill-color: transparent;
+}
 
-    .langs button {
-        background: transparent;
-        border: 1px solid var(--border);
-        color: var(--text);
-        padding: 6px 12px;
-        border-radius: 12px;
-        font-size: 11px;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
-    }
+.subtitle {
+text-align: center;
+color: var(--sub);
+font-size: 14px;
+margin-bottom: 35px;
+font-weight: 400;
+}
 
-    .langs button:hover {
-        background: rgba(255, 255, 255, 0.1);
-    }
+/* INPUTS */
+.input-group {
+margin-bottom: 20px;
+}
 
-    /* HEADER */
-    h1 {
-        text-align: center;
-        font-size: 36px;
-        font-weight: 800;
-        letter-spacing: -1px;
-        margin-bottom: 8px;
-        background: linear-gradient(to right, #4ade80, #3b82f6);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+label {
+font-size: 12px;
+font-weight: 600;
+color: #64748b;
+text-transform: uppercase;
+letter-spacing: 1px;
+margin-left: 10px;
+margin-bottom: 8px;
+display: block;
+}
 
-    .subtitle {
-        text-align: center;
-        color: var(--sub);
-        font-size: 14px;
-        margin-bottom: 35px;
-        font-weight: 400;
-    }
+input,
+textarea {
+width: 100%;
+background: var(--input-bg);
+border: 1px solid var(--border);
+border-radius: 18px;
+padding: 16px;
+color: white;
+font-family: inherit;
+font-size: 15px;
+transition: all 0.3s;
+}
 
-    /* INPUTS */
-    .input-group {
-        margin-bottom: 20px;
-    }
+input:focus,
+textarea:focus {
+outline: none;
+border-color: #3b82f6;
+background: rgba(255, 255, 255, 0.05);
+box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+}
 
-    label {
-        font-size: 12px;
-        font-weight: 600;
-        color: #64748b;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        margin-left: 10px;
-        margin-bottom: 8px;
-        display: block;
-    }
+textarea {
+resize: none;
+min-height: 100px;
+}
 
-    input,
-    textarea {
-        width: 100%;
-        background: var(--input-bg);
-        border: 1px solid var(--border);
-        border-radius: 18px;
-        padding: 16px;
-        color: white;
-        font-family: inherit;
-        font-size: 15px;
-        transition: all 0.3s;
-    }
+/* BUTTONS */
+.btn {
+width: 100%;
+padding: 16px;
+border-radius: 18px;
+border: none;
+font-weight: 700;
+font-size: 16px;
+cursor: pointer;
+display: flex;
+justify-content: center;
+align-items: center;
+gap: 10px;
+transition: 0.4s;
+position: relative;
+overflow: hidden;
+}
 
-    input:focus,
-    textarea:focus {
-        outline: none;
-        border-color: #3b82f6;
-        background: rgba(255, 255, 255, 0.05);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
-    }
+.ai-btn {
+background: linear-gradient(135deg, #4f46e5, #7c3aed);
+color: white;
+box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+margin-bottom: 25px;
+}
 
-    textarea {
-        resize: none;
-        min-height: 100px;
-    }
+.ai-btn:hover {
+transform: translateY(-3px);
+box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.6);
+}
 
-    /* BUTTONS */
-    .btn {
-        width: 100%;
-        padding: 16px;
-        border-radius: 18px;
-        border: none;
-        font-weight: 700;
-        font-size: 16px;
-        cursor: pointer;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        transition: 0.4s;
-        position: relative;
-        overflow: hidden;
-    }
+.actions {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+}
 
-    .ai-btn {
-        background: linear-gradient(135deg, #4f46e5, #7c3aed);
-        color: white;
-        box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
-        margin-bottom: 25px;
-    }
+.copy-btn {
+background: #1e293b;
+color: white;
+border: 1px solid var(--border);
+}
 
-    .ai-btn:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.6);
-    }
+.copy-btn:hover {
+background: #334155;
+}
 
-    .actions {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 12px;
-    }
+.wa-btn {
+background: #10b981;
+color: white;
+}
 
-    .copy-btn {
-        background: #1e293b;
-        color: white;
-        border: 1px solid var(--border);
-    }
+.wa-btn:hover {
+background: #059669;
+box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+}
 
-    .copy-btn:hover {
-        background: #334155;
-    }
+/* FOOTER */
+.footer {
+margin-top: 30px;
+text-align: center;
+font-size: 12px;
+color: #475569;
+}
 
-    .wa-btn {
-        background: #10b981;
-        color: white;
-    }
+/* Micro-animations */
+.btn:active {
+transform: scale(0.98);
+}
 
-    .wa-btn:hover {
-        background: #059669;
-        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
-    }
+.nav-links {
+display: flex;
+justify-content: center;
+gap: 9px;
+margin-bottom: 20px;
+}
 
-    /* FOOTER */
-    .footer {
-        margin-top: 30px;
-        text-align: center;
-        font-size: 12px;
-        color: #475569;
-    }
+.nav-links button {
+background: rgba(255, 255, 255, 0.06);
+border: 1px solid rgba(255, 255, 255, 0.1);
+color: white;
+padding: 6px 5px;
+border-radius: 5px;
+font-size: 9px;
+cursor: pointer;
+transition: 0.2s;
+}
 
-    /* Micro-animations */
-    .btn:active {
-        transform: scale(0.98);
-    }
-
-    .nav-links {
-        display: flex;
-        justify-content: center;
-        gap: 9px;
-        margin-bottom: 20px;
-    }
-
-    .nav-links button {
-        background: rgba(255, 255, 255, 0.06);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        color: white;
-        padding: 6px 5px;
-        border-radius: 5px;
-        font-size: 9px;
-        cursor: pointer;
-        transition: 0.2s;
-    }
-
-    .nav-links button:hover {
-        background: rgba(255, 255, 255, 0.15);
-    }
+.nav-links button:hover {
+background: rgba(255, 255, 255, 0.15);
+}
 </style>
 </head>
 
@@ -601,6 +601,7 @@
             out.select();
             navigator.clipboard.writeText(out.value);
             alert("Copié avec succès ! ✨");
+
         }
 
         /* =======================
@@ -615,11 +616,7 @@
     </script>
 
     <head>
-        <title>TEST WAPMSG</title>
-    </head>
 
-    <body style="background:red; color:white;">
-        <h1>🔥 SI TU VOIS ÇA = VERCEL OK</h1>
-    </body>
+</body>
 
 </html>
