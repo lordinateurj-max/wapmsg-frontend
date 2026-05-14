@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WapMsg AI | Premium</title>
+
+    <!-- PWA & Mobile -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#0f172a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+    <!-- FONTS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
+    <style>
+        :root {
+            --bg1: #0f172a;
+            --bg2: #020617;
+            --accent: linear-gradient(135deg, #22c55e, #3b82f6);
+            --card: rgba(15, 23, 42, 0.6);
+            --border: rgba(255, 255, 255, 0.1);
+            --text: #f8fafc;
+            --sub: #94a3b8;
+            --input-bg: rgba(255, 255, 255, 0.03);
+            --glow: rgba(59, 130, 246, 0.5);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: radial-gradient(circle at top right, #1e293b, #020617);
+            background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        /* Thèmes Dynamiques */
+        body.blue {
+            --bg1: #172554;
+            --bg2: #1e3a8a;
+            background: radial-gradient(circle at top right, #1e40af, #020617);
+        }
+
+        body.green {
+            --bg1: #064e3b;
+            --bg2: #064e3b;
+            background: radial-gradient(circle at top right, #065f46, #020617);
+        }
+
+        .app {
+            width: 100%;
+            max-width: 480px;
+            background: var(--card);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            border: 1px solid var(--border);
+            border-radius: 32px;
+            padding: 30px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* TOPBAR */
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .theme-selector {
+            display: flex;
+            gap: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px;
+            border-radius: 50px;
+        }
+
+        .theme-btn {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .theme-btn.default {
+            background: #0f172a;
+            border: 1px solid white;
+        }
+
+        .theme-btn.blue {
+            background: #3b82f6;
+        }
+
+        .theme-btn.green {
+            background: #22c55e;
+        }
+
+        .theme-btn:hover {
+            transform: scale(1.2);
+        }
+
+        .langs button {
+            background: transparent;
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 12px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .langs button:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* HEADER */
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 8px;
+            background: linear-gradient(to right, #4ade80, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: var(--sub);
+            font-size: 14px;
+            margin-bottom: 35px;
+            font-weight: 400;
+        }
+
+        /* INPUTS */
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-left: 10px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        input,
+        textarea {
+            width: 100%;
+            background: var(--input-bg);
+            border: 1px solid var(--border);
+            border-radius: 18px;
+            padding: 16px;
+            color: white;
+            font-family: inherit;
+            font-size: 15px;
+            transition: all 0.3s;
+        }
+
+        input:focus,
+        textarea:focus {
+            outline: none;
+            border-color: #3b82f6;
+            background: rgba(255, 255, 255, 0.05);
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.15);
+        }
+
+        textarea {
+            resize: none;
+            min-height: 100px;
+        }
+
+        /* BUTTONS */
+        .btn {
+            width: 100%;
+            padding: 16px;
+            border-radius: 18px;
+            border: none;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .ai-btn {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+            color: white;
+            box-shadow: 0 10px 25px -5px rgba(79, 70, 229, 0.4);
+            margin-bottom: 25px;
+        }
+
+        .ai-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px -5px rgba(79, 70, 229, 0.6);
+        }
+
+        .actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .copy-btn {
+            background: #1e293b;
+            color: white;
+            border: 1px solid var(--border);
+        }
+
+        .copy-btn:hover {
+            background: #334155;
+        }
+
+        .wa-btn {
+            background: #10b981;
+            color: white;
+        }
+
+        .wa-btn:hover {
+            background: #059669;
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        }
+
+        /* FOOTER */
+        .footer {
+            margin-top: 30px;
+            text-align: center;
+            font-size: 12px;
+            color: #475569;
+        }
+
+        /* Micro-animations */
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 9px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links button {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 6px 5px;
+            border-radius: 5px;
+            font-size: 9px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .nav-links button:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <div class="app">
+
+        <div class="topbar">
+
+            <div class="theme-selector">
+                <button class="theme-btn default" onclick="setTheme('default')"></button>
+                <button class="theme-btn blue" onclick="setTheme('blue')"></button>
+                <button class="theme-btn green" onclick="setTheme('green')"></button>
+            </div>
+
+            <div class="nav-links">
+                <button onclick="showSection('app')">📱 App</button>
+                <button onclick="showSection('about')">📄 À propos</button>
+                <button onclick="showSection('contact')">📩 Contact</button>
+            </div>
+
+            <div class="langs">
+                <button onclick="setLang('fr')">FR</button>
+                <button onclick="setLang('en')">EN</button>
+            </div>
+
+        </div>
+
+        <!-- ================= APP ================= -->
+        <div id="app" class="section active">
+
+            <h1>WapMsg AI</h1>
+            <div class="subtitle">Transformez vos idées en messages pros</div>
+
+            <div class="input-group">
+                <label>Client</label>
+                <input type="text" id="name" placeholder="Nom du destinataire...">
+            </div>
+
+            <div class="input-group">
+                <label>Votre Concept</label>
+                <textarea id="inputText" placeholder="Ex: Informer le client que son logo est prêt..."></textarea>
+            </div>
+
+            <button class="btn ai-btn" id="mainBtn" onclick="generateAI()">
+                🧠 Améliorer avec l'IA
+            </button>
+
+            <div class="input-group">
+                <label>Résultat Magique</label>
+                <textarea id="output" rows="6"></textarea>
+            </div>
+
+            <div class="actions">
+                <button class="btn copy-btn" onclick="copyMsg()">Copier</button>
+                <button class="btn wa-btn" onclick="sendWA()">WhatsApp</button>
+            </div>
+
+        </div>
+
+        <!-- ================= ABOUT ================= -->
+        <div id="about" class="section" style="display:none; text-align:center; padding:20px;">
+
+            <h2>📄 À propos</h2>
+
+            <p style="color:#94a3b8; margin-top:10px; line-height:1.6;">
+                WapMsg AI est une application intelligente conçue pour aider les utilisateurs à transformer leurs idées
+                simples en messages professionnels clairs, structurés et efficaces grâce à l’intelligence artificielle.
+            </p>
+
+            <br>
+
+            <p style="color:#e2e8f0; line-height:1.7; font-size:14px;">
+
+                🚀 <b>Objectif du projet</b><br>
+                Le but de WapMsg AI est de simplifier la communication entre les entrepreneurs, les clients et les
+                entreprises.
+                Beaucoup de personnes ont des idées mais ne savent pas comment les écrire correctement.
+                Cette application résout ce problème en générant des messages professionnels automatiquement.
+
+                <br><br>
+
+                💡 <b>Vision</b><br>
+                Créer un assistant intelligent simple, rapide et accessible à tous, même sans compétences techniques,
+                afin d’améliorer la communication digitale en Afrique et dans le monde.
+
+                <br><br>
+
+                👨‍💻 <b>Fondateur</b><br>
+                Yelo Joel<br>
+                🇨🇮 Développeur ivoirien passionné par le web, l’intelligence artificielle et la création de solutions
+                numériques modernes.
+
+                <br><br>
+
+                ⚙️ <b>Ce que fait WapMsg AI</b><br>
+                • Transforme des idées en messages professionnels<br>
+                • Aide les entrepreneurs à mieux communiquer<br>
+                • Génère du texte optimisé pour WhatsApp et clients<br>
+                • Simplifie la rédaction de messages business
+
+                <br><br>
+
+                🌍 <b>Mission</b><br>
+                Rendre l’intelligence artificielle accessible à tous à travers des outils simples et utiles au
+                quotidien.
+
+            </p>
+
+        </div>
+
+        <!-- ================= CONTACT ================= -->
+        <div id="contact" class="section" style="display:none; text-align:center; padding:20px;">
+
+            <h2>📩 Contact</h2>
+
+            <p style="color:#94a3b8; margin-top:10px;">
+                Besoin d’aide, d’un partenariat ou d’informations sur WapMsg AI ?
+                Nous sommes disponibles pour répondre rapidement à toutes vos demandes.
+            </p>
+
+            <br>
+
+            <div style="color:#e2e8f0; line-height:1.8; font-size:15px;">
+
+                📱 <b>WhatsApp</b> (réponse rapide) :<br>
+                +225 86 69 51 14
+
+                <br><br>
+
+                📞 <b>Appel direct</b> :<br>
+                Disponible sur le même numéro WhatsApp
+
+                <br><br>
+
+                📧 <b>Email officiel</b> :<br>
+                wapmsgai@gmail.com
+
+            </div>
+
+            <br>
+
+            <p style="color:#94a3b8; font-size:13px;">
+                ⏱ Nous répondons généralement en moins de 24h<br>
+                🌍 Support disponible pour tous les utilisateurs
+            </p>
+
+        </div>
+
+        <div class="footer">
+            © 2026 • Design by <b>Yelo Studio</b>
+        </div>
+
+    </div>
+
+
+    <script>
+        function showSection(id) {
+
+            document.querySelectorAll('.section').forEach(sec => {
+                sec.style.display = "none";
+            });
+
+            document.getElementById(id).style.display = "block";
+        }
+
+        function setTheme(t) {
+            document.body.className = t === "default" ? "" : t;
+        }
+
+        function generateAI() {
+            let name = document.getElementById("name").value;
+            let text = document.getElementById("inputText").value;
+
+            document.getElementById("output").value =
+                "Bonjour " + name + " : " + text + " (amélioré par IA)";
+        }
+
+        function copyMsg() {
+            let out = document.getElementById("output");
+            out.select();
+            document.execCommand("copy");
+            alert("Copié !");
+        }
+
+        function sendWA() {
+            let text = document.getElementById("output").value;
+            window.open("https://wa.me/?text=" + encodeURIComponent(text));
+        }
+    </script>
+
+    </div>
+    <script>
+
+        const API_URL = "https://wapmsg-backend-4ljl.onrender.com";
+
+        let lang = "fr";
+
+        /* =======================
+           TEXTES LANGUE
+        ======================= */
+        const texts = {
+            fr: {
+                client: "Client",
+                concept: "Votre Concept",
+                result: "Résultat Magique",
+                ai: "Améliorer avec l'IA",
+                copy: "Copier",
+                whatsapp: "WhatsApp",
+                placeholder: "Ex: Informer le client que son logo est prêt..."
+            },
+            en: {
+                client: "Customer",
+                concept: "Your Idea",
+                result: "Magic Result",
+                ai: "Improve with AI",
+                copy: "Copy",
+                whatsapp: "WhatsApp",
+                placeholder: "Example: Inform client that logo is ready..."
+            }
+        };
+
+        /* =======================
+           LANGUE
+        ======================= */
+        function setLang(l) {
+            lang = l;
+            alert(l === 'fr' ? "Langue : Français" : "Language: English");
+            applyLang();
+        }
+
+        function applyLang() {
+            document.querySelectorAll(".input-group label")[0].innerText = texts[lang].client;
+            document.querySelectorAll(".input-group label")[1].innerText = texts[lang].concept;
+            document.querySelectorAll(".input-group label")[2].innerText = texts[lang].result;
+
+            document.getElementById("inputText").placeholder = texts[lang].placeholder;
+
+            document.querySelector(".ai-btn").innerText = "🧠 " + texts[lang].ai;
+            document.querySelector(".copy-btn").innerText = texts[lang].copy;
+            document.querySelector(".wa-btn").innerText = texts[lang].whatsapp;
+        }
+
+        /* =======================
+           THEME
+        ======================= */
+        function setTheme(theme) {
+            document.body.className = theme === "default" ? "" : theme;
+        }
+
+        /* =======================
+           IA (GROQ / BACKEND)
+        ======================= */
+        async function generateAI() {
+            const text = document.getElementById("inputText").value;
+            const name = document.getElementById("name").value;
+            const btn = document.getElementById("mainBtn");
+            const output = document.getElementById("output");
+
+            if (!text) {
+                alert("Dites-moi quoi écrire !");
+                return;
+            }
+
+            btn.innerHTML = "⏳ Génération...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API_URL}/ai`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({
+                        text: `${text} pour le client ${name}`,
+                        lang
+                    })
+                });
+
+                const data = await res.json();
+                output.value = data.result;
+
+            } catch (err) {
+                console.log(err);
+                output.value = "Erreur serveur IA ❌";
+            }
+
+            btn.innerHTML = "🧠 " + texts[lang].ai;
+            btn.disabled = false;
+        }
+
+        /* =======================
+           COPY
+        ======================= */
+        function copyMsg() {
+            const out = document.getElementById("output");
+            out.select();
+            navigator.clipboard.writeText(out.value);
+            alert("Copié avec succès ! ✨");
+        }
+
+        /* =======================
+           WHATSAPP
+        ======================= */
+        function sendWA() {
+            const text = document.getElementById("output").value;
+            if (!text) return alert("Rien à envoyer");
+            window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
+        }
+
+    </script>
+</body>
+
+</html>
