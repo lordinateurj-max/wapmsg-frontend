@@ -299,6 +299,16 @@
     .nav-links button:hover {
         background: rgba(255, 255, 255, 0.15);
     }
+
+    .tg-btn {
+        background: #229ED9;
+        color: white;
+    }
+
+    .download-btn {
+        background: #10B981;
+        color: white;
+    }
 </style>
 </head>
 
@@ -350,17 +360,31 @@
             <button class="btn ai-btn" id="mainBtn" onclick="generateAI()">
                 🧠 Améliorer avec l'IA
             </button>
-
             <div class="input-group">
                 <label>Résultat Magique</label>
                 <textarea id="output" rows="6"></textarea>
             </div>
-
             <div class="actions">
-                <button class="btn copy-btn" onclick="copyMsg()">Copier</button>
-                <button class="btn wa-btn" onclick="sendWA()">WhatsApp</button>
+                <button class="btn copy-btn" onclick="copyMsg()">
+                    Copier
+                </button>
+
+                <button class="btn wa-btn" onclick="sendWA()">
+                    WhatsApp
+                </button>
+
+                <button class="btn tg-btn" onclick="sendTelegram()">
+                    Telegram
+                </button>
+
+                <!-- 🎤 MICRO UNIQUE -->
+                <button id="voiceBtn" class="btn voice-btn" onclick="startVoice()">
+                    🎤 Parler
+                </button>
             </div>
 
+            <!-- 👇 statut micro (hors actions pour propre UI) -->
+            <p id="voiceStatus" style="margin-top:10px; color:#aaa;"></p>
         </div>
 
         <!-- ================= ABOUT ================= -->
@@ -622,7 +646,121 @@
             if (!text) return alert("Rien à envoyer");
             window.open(`https://wa.me/?text=${encodeURIComponent(text)}`, "_blank");
         }
+        /* =======================
+           COPY
+        ======================= */
+        function copyMsg() {
+            const out = document.getElementById("output");
+            out.select();
+            navigator.clipboard.writeText(out.value);
+            alert("Copié avec succès ! ✨");
+        }
 
+        /* =======================
+           WHATSAPP
+        ======================= */
+        function sendWA() {
+            const text = document.getElementById("output").value;
+
+            if (!text) return alert("Rien à envoyer");
+
+            window.open(
+                `https://wa.me/?text=${encodeURIComponent(text)}`,
+                "_blank"
+            );
+        }
+
+        /* =======================
+           TELEGRAM
+        ======================= */
+        function sendTelegram() {
+            const text = document.getElementById("output").value;
+
+            if (!text) return alert("Rien à envoyer");
+
+            window.open(
+                `https://t.me/share/url?text=${encodeURIComponent(text)}`,
+                "_blank"
+            );
+        }
+
+        /* =======================
+           DOWNLOAD
+        ======================= */
+        function downloadMsg() {
+            const text = document.getElementById("output").value;
+
+            if (!text) return alert("Rien à télécharger");
+
+            const blob = new Blob([text], { type: "text/plain" });
+
+            const a = document.createElement("a");
+            a.href = URL.createObjectURL(blob);
+            a.download = "wapmsg-message.txt";
+            a.click();
+        }
+
+        /* =======================
+           🎤 VOICE PRO (AMÉLIORÉ)
+        ======================= */
+        let recognition;
+
+        function startVoice() {
+            const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+            if (!SpeechRecognition) {
+                alert("Ton navigateur ne supporte pas la reconnaissance vocale");
+                return;
+            }
+
+            const btn = document.getElementById("voiceBtn");
+            const status = document.getElementById("voiceStatus");
+
+            // 🛑 éviter double clic
+            if (recognition) {
+                recognition.stop();
+            }
+
+            recognition = new SpeechRecognition();
+            recognition.lang = "fr-FR";
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            // 🎤 UI ON
+            btn.style.background = "#ff3b3b";
+            btn.innerText = "🎤 Écoute...";
+            btn.disabled = true;
+            status.innerText = "Parle maintenant...";
+
+            recognition.start();
+
+            recognition.onresult = function (event) {
+                const text = event.results[0][0].transcript;
+                document.getElementById("output").value = text;
+            };
+
+            recognition.onerror = function () {
+                status.innerText = "Erreur micro, réessaie";
+                resetVoiceUI();
+            };
+
+            recognition.onend = function () {
+                resetVoiceUI();
+            };
+        }
+
+        /* =======================
+           RESET MICRO UI
+        ======================= */
+        function resetVoiceUI() {
+            const btn = document.getElementById("voiceBtn");
+            const status = document.getElementById("voiceStatus");
+
+            btn.style.background = "";
+            btn.innerText = "🎤 Parler";
+            btn.disabled = false;
+            status.innerText = "";
+        }
     </script>
 
     <head>
